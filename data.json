@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "title": "The Glory",
+      "thumbnail": "https://picsum.photos/200/300?1",
+      "synopsis": "Drama balas dendam penuh emosi.",
+      "episodes": [
+        { "title": "Episode 1", "url": "https://youtube.com" },
+        { "title": "Episode 2", "url": "https://youtube.com" }
+      ]
+    },
+    {
+      "title": "Crash Landing On You",
+      "thumbnail": "https://picsum.photos/200/300?2",
+      "synopsis": "Cinta lintas negara yang mustahil.",
+      "episodes": [
+        { "title": "Episode 1", "url": "https://youtube.com" },
+        { "title": "Episode 2", "url": "https://youtube.com" }
+      ]
+    }
+  ]
+}
