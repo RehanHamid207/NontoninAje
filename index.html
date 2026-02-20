@@ -100,52 +100,50 @@ button {
 </div>
 
 <script>
-const proxy = "https://corsproxy.io/?";
-const api = "https://api.sansekai.my.id/dramabox/latest";
+const proxies = [
+  "https://corsproxy.io/?",
+  "https://api.allorigins.win/raw?url=",
+  "https://thingproxy.freeboard.io/fetch/"
+];
 
-fetch(proxy + api)
-.then(res => res.json())
-.then(data => {
+const api = "https://api.sansekai.my.id/dramabox/latest";
+let used = false;
+
+async function loadAPI(){
+  for(let p of proxies){
+    try{
+      const res = await fetch(p + api);
+      const data = await res.json();
+      render(data);
+      used = true;
+      break;
+    }catch(e){
+      console.log("Proxy gagal:", p);
+    }
+  }
+
+  if(!used){
+    document.body.innerHTML = `
+      <h2 style="text-align:center;color:red">
+        ❌ API tidak bisa diakses (CORS / API mati)
+      </h2>
+    `;
+  }
+}
+
+function render(data){
   const list = document.getElementById("list");
-  data.data.forEach(item => {
+  data.data.forEach(item=>{
     list.innerHTML += `
-      <div class="card" onclick="loadDetail('${item.slug}')">
+      <div class="card">
         <img src="${item.thumbnail}">
         <h3>${item.title}</h3>
       </div>
     `;
   });
-})
-.catch(e => {
-  document.body.innerHTML = "<h2 style='text-align:center'>Gagal load API 😭</h2>";
-  console.log(e);
-});
-
-function loadDetail(slug){
-  fetch(proxy + "https://api.sansekai.my.id/dramabox/detail?slug=" + slug)
-  .then(res => res.json())
-  .then(d => {
-    const drama = d.data;
-    let html = `
-      <span class="close" onclick="closeModal()">✖</span>
-      <h2>${drama.title}</h2>
-      <img src="${drama.thumbnail}" width="200"><br><br>
-      <p>${drama.synopsis}</p>
-      <h3>Episode:</h3>
-    `;
-    drama.episodes.forEach(ep=>{
-      html += `<p><a href="${ep.url}" target="_blank" style="color:#38bdf8">${ep.title}</a></p>`;
-    });
-
-    document.getElementById("detail").innerHTML = html;
-    document.getElementById("modal").style.display="flex";
-  });
 }
 
-function closeModal(){
-  document.getElementById("modal").style.display="none";
-}
+loadAPI();
 </script>
-
 </body>
 </html>
