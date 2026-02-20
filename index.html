@@ -3,115 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NontoDrama</title>
+<title>Web Drama</title>
+
 <style>
 body{margin:0;font-family:sans-serif;background:#0f172a;color:white}
-header{padding:15px;background:#020617;font-size:22px;text-align:center;color:#38bdf8}
+header{padding:15px;background:#020617;text-align:center;font-size:22px;color:#38bdf8}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:15px;padding:15px}
-.card{background:#020617;border-radius:10px;overflow:hidden}
+.card{background:#020617;border-radius:10px;overflow:hidden;cursor:pointer;transition:.3s}
+.card:hover{transform:scale(1.05)}
 .card img{width:100%;height:230px;object-fit:cover}
 .card h3{font-size:14px;padding:8px}
-.error{color:red;text-align:center;margin-top:50px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;justify-content:center;align-items:center}
+.modal-content{background:#020617;padding:15px;max-width:90%;border-radius:10px}
+button{background:#38bdf8;border:none;padding:10px;border-radius:6px}
 </style>
 </head>
 <body>
 
-<header>🎬 NontoDrama</header>
-<div class="grid" id="list"></div>
-<div class="error" id="error"></div>
-
-<script>
-const proxies = [
-  "https://corsproxy.io/?",
-  "https://api.allorigins.win/raw?url=",
-  "https://thingproxy.freeboard.io/fetch/"
-];
-
-const api = "https://api.sansekai.my.id/api/dramabox/foryou?page=1";
-
-async function loadAPI(){
-  for (let p of proxies){
-    try{
-      const res = await fetch(p + api);
-      const data = await res.json();
-      render(data);
-      return;
-    }catch(e){
-      console.log("Gagal proxy:", p);
-    }
-  }
-  document.getElementById("error").innerText =
-    "❌ API diblok (CORS). Tidak bisa diakses langsung dari browser.";
-}
-
-function render(data){
-  const list = document.getElementById("list");
-  data.data.forEach(item=>{
-    list.innerHTML += `
-      <div class="card">
-        <img src="${item.thumbnail}">
-        <h3>${item.title}</h3>
-      </div>
-    `;
-  });
-}
-
-loadAPI();
-</script>
-
-</body>
-</html>
-.card img {
-  width:100%;
-  height:230px;
-  object-fit:cover;
-}
-
-.card h3 {
-  font-size:14px;
-  padding:8px;
-}
-
-.modal {
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.8);
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
-
-.modal-content {
-  background:#020617;
-  padding:15px;
-  max-width:90%;
-  max-height:90%;
-  overflow:auto;
-  border-radius:10px;
-}
-
-button {
-  background:#38bdf8;
-  border:none;
-  padding:10px;
-  border-radius:6px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.close {
-  float:right;
-  color:red;
-  font-size:20px;
-  cursor:pointer;
-}
-</style>
-</head>
-
-<body>
-
-<header>🎬 NontoDrama</header>
-
+<header>🎬 Web Drama</header>
 <div class="grid" id="list"></div>
 
 <div class="modal" id="modal">
@@ -119,50 +28,37 @@ button {
 </div>
 
 <script>
-const proxies = [
-  "https://corsproxy.io/?",
-  "https://api.allorigins.win/raw?url=",
-  "https://thingproxy.freeboard.io/fetch/"
-];
-
-const api = "https://api.sansekai.my.id/dramabox/latest";
-let used = false;
-
-async function loadAPI(){
-  for(let p of proxies){
-    try{
-      const res = await fetch(p + api);
-      const data = await res.json();
-      render(data);
-      used = true;
-      break;
-    }catch(e){
-      console.log("Proxy gagal:", p);
-    }
-  }
-
-  if(!used){
-    document.body.innerHTML = `
-      <h2 style="text-align:center;color:red">
-        ❌ API tidak bisa diakses (CORS / API mati)
-      </h2>
-    `;
-  }
-}
-
-function render(data){
+fetch("data.json")
+.then(r=>r.json())
+.then(data=>{
   const list = document.getElementById("list");
-  data.data.forEach(item=>{
-    list.innerHTML += `
-      <div class="card">
+  data.data.forEach((item,i)=>{
+    list.innerHTML+=`
+      <div class="card" onclick="show(${i})">
         <img src="${item.thumbnail}">
         <h3>${item.title}</h3>
       </div>
     `;
   });
-}
+  window.db = data.data;
+});
 
-loadAPI();
+function show(i){
+  const d = db[i];
+  let html = `
+    <h2>${d.title}</h2>
+    <img src="${d.thumbnail}" width="200"><br><br>
+    <p>${d.synopsis}</p>
+    <h3>Episode:</h3>
+  `;
+  d.episodes.forEach(ep=>{
+    html+=`<p><a href="${ep.url}" target="_blank" style="color:#38bdf8">${ep.title}</a></p>`;
+  });
+  html+=`<button onclick="modal.style.display='none'">Tutup</button>`;
+  detail.innerHTML=html;
+  modal.style.display="flex";
+}
 </script>
+
 </body>
 </html>
