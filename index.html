@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Film Test</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Test API Film</title>
+  <style>
+    body {
+      background:#111;
+      color:white;
+      font-family:Arial;
+      text-align:center;
+    }
+    #movies {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+      gap:15px;
+      padding:20px;
+    }
+    .card {
+      background:#222;
+      padding:10px;
+      border-radius:8px;
+      text-decoration:none;
+      color:white;
+    }
+    .card img {
+      width:100%;
+      border-radius:5px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Uji Coba API Film</h1>
-  <div id="movies"></div>
+  <h1>Test API LK21</h1>
+  <div id="movies">Loading...</div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
