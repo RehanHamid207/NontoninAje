@@ -1,21 +1,25 @@
 {
   "data": [
     {
-      "title": "The Glory",
-      "thumbnail": "https://picsum.photos/200/300?1",
-      "synopsis": "Drama balas dendam penuh emosi.",
+      "title": "Conjuring: Last Rites (2025)",
+      "thumbnail": "https://picsum.photos/300/450?random=1",
+      "synopsis": "Film horor tentang kasus terakhir pasangan penyelidik paranormal.",
       "episodes": [
-        { "title": "Episode 1", "url": "https://youtube.com" },
-        { "title": "Episode 2", "url": "https://youtube.com" }
+        {
+          "title": "Play Trailer",
+          "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        }
       ]
     },
     {
-      "title": "Crash Landing On You",
-      "thumbnail": "https://picsum.photos/200/300?2",
-      "synopsis": "Cinta lintas negara yang mustahil.",
+      "title": "Action Demo Movie",
+      "thumbnail": "https://picsum.photos/300/450?random=2",
+      "synopsis": "Film aksi untuk uji coba player dan layout web.",
       "episodes": [
-        { "title": "Episode 1", "url": "https://youtube.com" },
-        { "title": "Episode 2", "url": "https://youtube.com" }
+        {
+          "title": "Play Demo",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        }
       ]
     }
   ]
