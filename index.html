@@ -2,37 +2,38 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Test API Film</title>
+  <title>DramaBox</title>
   <style>
-    body {
-      background:#111;
-      color:white;
-      font-family:Arial;
-      text-align:center;
-    }
-    #movies {
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-      gap:15px;
-      padding:20px;
-    }
-    .card {
-      background:#222;
-      padding:10px;
-      border-radius:8px;
-      text-decoration:none;
-      color:white;
-    }
-    .card img {
-      width:100%;
-      border-radius:5px;
-    }
+    body { font-family: Arial; background:#111; color:white; }
+    .card { background:#222; padding:10px; margin:10px; border-radius:8px; }
+    img { width:100%; border-radius:8px; }
   </style>
 </head>
 <body>
-  <h1>Test API LK21</h1>
-  <div id="movies">Loading...</div>
 
-  <script src="script.js"></script>
+<h1>Drama Terbaru</h1>
+<div id="list"></div>
+
+<script>
+fetch("https://api.sansekai.my.id/dramabox/latest")
+  .then(res => res.json())
+  .then(data => {
+    const list = document.getElementById("list");
+    data.data.forEach(item => {
+      list.innerHTML += `
+        <div class="card">
+          <img src="${item.thumbnail}">
+          <h3>${item.title}</h3>
+        </div>
+      `;
+    });
+  })
+  .catch(err => {
+    document.body.innerHTML = "Gagal load API 😭";
+    console.log(err);
+  });
+</script>
+
 </body>
+</html></body>
 </html>
